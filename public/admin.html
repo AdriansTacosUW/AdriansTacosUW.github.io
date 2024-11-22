@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Taco Orders</title>
+</head>
+<body>
+  <h1>Admin - Taco Orders</h1>
+  
+  <h2>Orders</h2>
+  <table id="ordersTable">
+    <thead>
+      <tr>
+        <th>Customer Name</th>
+        <th>Taco Quantity</th>
+        <th>Total Amount</th>
+        <th>Payment Status</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Orders will be displayed here -->
+    </tbody>
+  </table>
+
+  <script>
+    // Fetch orders from the server and display them in the table
+    fetch('/admin/orders')
+      .then(response => response.json())
+      .then(data => {
+        const ordersTable = document.getElementById('ordersTable').getElementsByTagName('tbody')[0];
+        ordersTable.innerHTML = ''; // Clear the table
+
+        data.forEach(order => {
+          const row = ordersTable.insertRow();
+          row.innerHTML = `
+            <td>${order.customerName}</td>
+            <td>${order.tacoQuantity}</td>
+            <td>${order.totalAmount}</td>
+            <td>${order.paymentStatus}</td>
+            <td>${order.status}</td>
+            <td><button onclick="markAsDone('${order._id}')">Mark as Done</button></td>
+          `;
+        });
+      })
+      .catch(err => console.error('Error fetching orders:', err));
+
+    // Function to mark an order as done
+    function markAsDone(orderId) {
+      fetch(`/admin/orders/${orderId}`, {
+        method: 'PUT',
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Order marked as done');
+        location.reload();  // Reload the page to reflect changes
+      })
+      .catch(err => console.error('Error updating order status:', err));
+    }
+  </script>
+</body>
+</html>
