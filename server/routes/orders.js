@@ -1,5 +1,5 @@
 const express = require('express');
-const Order = require('../models/order');
+const Order = require('../models/order'); // Make sure the model exists and is correct
 const router = express.Router();
 
 // Save order after payment
