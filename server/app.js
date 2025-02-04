@@ -7,9 +7,6 @@ const bodyParser = require('body-parser');
 // Load environment variables
 dotenv.config();  // Ensure this line is here
 
-// Log the MongoDB URI to verify it's loaded
-console.log(process.env.MONGO_URI);  // Should print the MongoDB connection string
-
 // Import routes
 const orderRoutes = require('./routes/orders');
 const reviewRoutes = require('./routes/reviews');
@@ -23,7 +20,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://website_acsess:MWzeeuEgUaHTphAZ@taco.tyf73.mongodb.net/?retryWrites=true&w=majority&appName=Taco', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch((error) => {
     console.error('Error connecting to MongoDB Atlas:', error);
